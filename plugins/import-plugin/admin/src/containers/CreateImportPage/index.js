@@ -230,10 +230,9 @@ class CreateImportPage extends Component {
               <LoadingIndicator/>
             )}
             {!loading && modelOptions && (
-              <div className={''}>
-                <form>
-                  <Row>
-                    <>
+              <row className={'col-12'}>
+                <form className={'row'}>
+                    <div className={'col-4'}>
                       <Label htmlFor="importSource">Import Source</Label>
                       <Select
                         name="importSource"
@@ -241,12 +240,8 @@ class CreateImportPage extends Component {
                         value={this.state.importSource} // observe our state
                         onChange={({target: {value}}) => this.selectImportSource(value)}
                       />
-                    </>
-                  </Row>
-                </form>
-                <form>
-                  <Row className="">
-                    <>
+                    </div>
+                    <div className={'col-4'}>
                       <Label htmlFor="importDest">Import Destination</Label>
                       <Select
                         value={this.state.selectedContentType} // observe our state
@@ -254,8 +249,9 @@ class CreateImportPage extends Component {
                         options={this.state.modelOptions}
                         onChange={({target: {value}}) => this.selectImportDest(value)}
                       />
-                    </>
-                  </Row>
+                    </div>
+                </form>
+                <form className="">
                   <Row>
                     {this.state.importSource === 'upload' && (
                       <UploadFileForm
@@ -278,7 +274,7 @@ class CreateImportPage extends Component {
                   </Row>
                   {this.state.analysis && this.state.analysis.sourceType === 'csv' && ( // show only when data type is CSV
                     <Row className={'row'}>
-                      <div className={'col-6'}>
+                      <div className={'col-4'}>
                         <Label message={'Delimiter'} htmlFor={'delimiterInput'}/>
                         <InputText
                           name={'delimiterInput'}
@@ -295,7 +291,7 @@ class CreateImportPage extends Component {
                           value={inputFormatSettings.delimiter}
                         />
                       </div>
-                      <div className={'col-6'}>
+                      <div className={'col-4'}>
                         <Label message={'Skip Rows'} htmlFor={'skipInput'}/>
                         <InputNumber
                           name={'skipInput'}
@@ -315,7 +311,7 @@ class CreateImportPage extends Component {
                     </Row>
                   )}
                 </form>
-              </div>
+              </row>
             )}
           </Block>
         </div>
