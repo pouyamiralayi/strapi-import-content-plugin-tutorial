@@ -80,13 +80,11 @@ class HistoryTable extends Component {
 
   render() {
     const {configs} = this.props;
-    // console.log(configs)
     const props = {
       title: 'Import History',
       subtitle: "Manage the Initiated Imports",
 
     }
-    // console.log('targetModel: ', targetModel)
     const headers = [
       {name: 'Source', value: 'source'},
       {name: 'Content Type', value: 'contentType'},

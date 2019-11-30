@@ -28,7 +28,6 @@ class HistoryPage extends Component {
         const res = await axios.delete(api_url + 'import-plugin/' + id)
         if (res && res.data) {
           let {importConfigs} = this.state
-          console.log(importConfigs)
           importConfigs = importConfigs.filter(imp => imp.id != id)
           this.setState({importConfigs, loading: false}, () => {
             strapi.notification.success(
