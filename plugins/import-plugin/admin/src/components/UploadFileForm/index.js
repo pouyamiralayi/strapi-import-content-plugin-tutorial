@@ -18,7 +18,6 @@ function readFileContent(file) {
 export class UploadFileForm extends Component {
 
   state = {
-    source: 'url',
     file: null,
     type: null,
     options: {
