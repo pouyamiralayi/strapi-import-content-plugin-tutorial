@@ -23,23 +23,43 @@ class HistoryPage extends Component {
   };
 
   deleteImport = async (id) => {
-    const res = await axios.delete(api_url + 'import-plugin/' + id)
-    if (res && res.data) {
-      let {importConfigs} = this.state
-      importConfigs = importConfigs.splice(importConfigs.findIndex(imp => imp.id === res.data), 1)
-      this.setState({importConfigs}, () => {
-        strapi.notification.success(
-          `Deleted`
-        );
-      })
-    }
+    this.setState({loading: true}, async () => {
+      try {
+        const res = await axios.delete(api_url + 'import-plugin/' + id)
+        if (res && res.data) {
+          let {importConfigs} = this.state
+          importConfigs = importConfigs.splice(importConfigs.findIndex(imp => imp.id === res.data), 1)
+          this.setState({importConfigs, loading: false}, () => {
+            strapi.notification.success(
+              `Deleted`
+            );
+          })
+        } else {
+          this.setState({loading: false}, () => {
+            strapi.notification.error(
+              `Delete Failed`
+            );
+          })
+        }
+      } catch (e) {
+        this.setState({loading: false}, () => {
+          strapi.notification.error(
+            `${e}`
+          );
+        })
+      }
+    })
   }
 
   undoImport = async (id) => {
-    await axios.post(api_url + `import-plugin/${id}/undo`)
-    strapi.notification.info(
-      `Undo Started`
-    );
+    this.setState({loading: true}, async () => {
+      await axios.post(api_url + `import-plugin/${id}/undo`)
+      this.setState({loading: false}, () => {
+        strapi.notification.info(
+          `Undo Started`
+        );
+      })
+    })
   }
 
   getConfigs = async () => {
@@ -75,7 +95,7 @@ class HistoryPage extends Component {
   }
 
   componentWillUnmount() {
-    if(this.fetchInterval){
+    if (this.fetchInterval) {
       clearInterval(this.fetchInterval)
     }
   }
