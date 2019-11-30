@@ -1,0 +1,78 @@
+'use strict';
+const _ = require('lodash');
+
+const queues = {};
+
+const removeImportedFiles = async (fileIds, uploadConfig) => {
+  const removePromises = fileIds.map(id =>
+    strapi.plugins['upload'].services.upload.remove({ id }, uploadConfig)
+  );
+
+  return await Promise.all(removePromises);
+};
+
+const undoNextItem = async (importConfig, uploadConfig) => {
+  const item = queues[importConfig.id].shift();
+
+  if (!item) {
+    console.log('undo complete');
+
+    await strapi
+      .query('importconfig', 'import-plugin')
+      .update({ id: importConfig.id }, { ongoing: false });
+
+    return;
+  }
+
+  try{
+    await strapi.query(importConfig.contentType)
+      .delete({ id: item.ContentId })
+
+    const importedFileIds = _.compact(item.importedFiles.fileIds);
+
+    await removeImportedFiles(importedFileIds, uploadConfig);
+
+    await strapi.query('importeditem', 'import-plugin').delete({
+      id: item.id
+    });
+  }
+  catch (e) {
+    console.log(e)
+  }
+
+  const { UNDO_THROTTLE } = strapi.plugins['import-plugin'].config;
+  setTimeout(() => undoNextItem(importConfig, uploadConfig), UNDO_THROTTLE);
+};
+
+module.exports = {
+  undoItems: importConfig =>
+    new Promise(async (resolve, reject) => {
+      try {
+        queues[importConfig.id] = importConfig.importeditems;
+      } catch (error) {
+        reject(error);
+      }
+
+      // const res = await strapi.query('importconfig','import-plugin').findOne({id:importConfig.id})
+      // console.log(res.ongoing)
+
+      await strapi
+        .query('importconfig', 'import-plugin')
+        .update({ id: importConfig.id }, { ongoing: true });
+
+      resolve({
+        status: 'undo started',
+        importConfigId: importConfig.id
+      });
+
+      const uploadConfig = await strapi
+        .store({
+          environment: strapi.config.environment,
+          type: 'plugin',
+          name: 'upload'
+        })
+        .get({ key: 'provider' });
+
+      undoNextItem(importConfig, uploadConfig);
+    })
+};

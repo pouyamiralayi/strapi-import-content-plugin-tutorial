@@ -1,0 +1,44 @@
+{
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/:importId/undo",
+      "handler": "ImportPlugin.undo",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/:importId",
+      "handler": "ImportPlugin.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/",
+      "handler": "ImportPlugin.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/preAnalyzeImportFile",
+      "handler": "ImportPlugin.preAnalyzeImportFile",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "handler": "ImportPlugin.index",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
