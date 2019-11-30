@@ -28,7 +28,8 @@ class HistoryPage extends Component {
         const res = await axios.delete(api_url + 'import-plugin/' + id)
         if (res && res.data) {
           let {importConfigs} = this.state
-          importConfigs = importConfigs.splice(importConfigs.findIndex(imp => imp.id === res.data), 1)
+          console.log(importConfigs)
+          importConfigs = importConfigs.filter(imp => imp.id != id)
           this.setState({importConfigs, loading: false}, () => {
             strapi.notification.success(
               `Deleted`
