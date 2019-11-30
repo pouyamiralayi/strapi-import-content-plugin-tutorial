@@ -1,4 +1,4 @@
-# Strapi Import Plugin
+# Strapi Import Plugin Tutorial
 
 All the credits belong to https://github.com/jbeuckm which developed this wonderful plugin: https://github.com/jbeuckm/strapi-plugin-import-content
 
