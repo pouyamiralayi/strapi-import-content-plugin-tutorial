@@ -1,6 +1,6 @@
 # Strapi Import Plugin
 
-all the credits belong to https://github.com/jbeuckm which developed this wonderful plugin: https://github.com/jbeuckm/strapi-plugin-import-content
+All the credits belong to https://github.com/jbeuckm which developed this wonderful plugin: https://github.com/jbeuckm/strapi-plugin-import-content
 
 ----
 
