@@ -9,7 +9,6 @@ import axios from "axios";
 import {api_url} from "../../constants";
 
 const getUrl = to => to ? `/plugins/${pluginId}/${to}` : `/plugins/${pluginId}`;
-const getNavTrad = trad => `${pluginId}.${trad}.numbered`;
 
 class HistoryPage extends Component {
   state = {
@@ -31,7 +30,7 @@ class HistoryPage extends Component {
   }
 
   undoImport = async (id) => {
-    const res = await axios.post(api_url + `import-plugin/${id}/undo`)
+    await axios.post(api_url + `import-plugin/${id}/undo`)
     strapi.notification.info(
       `Undo Started`
     );
@@ -40,23 +39,20 @@ class HistoryPage extends Component {
   getConfigs = async () => {
     try {
       const res = await axios.get(api_url + 'import-plugin/')
-      // console.log(res)
-      // this.setState({loading: false})
       if (res && res.data) {
         return res.data
       } else {
         throw Error("No Data Available.")
       }
     } catch (e) {
-      console.log('GET error: ', e)
+      strapi.notification.error(`${e}`)
+      return []
     }
-    return []
   }
 
   importConfigs() {
     if (!this.state.loading) {
       this.getConfigs().then(res => {
-        // console.log(res)
         this.setState({importConfigs: res})
       })
     }
@@ -69,7 +65,7 @@ class HistoryPage extends Component {
     })
     setTimeout(() => {
       this.fetchInterval = setInterval(() => this.importConfigs(), 4000)
-    }, 2000)
+    }, 200)
   }
 
   componentWillUnmount() {
@@ -80,7 +76,6 @@ class HistoryPage extends Component {
 
   render() {
     const {importConfigs} = this.state
-    // console.log(importConfigs)
     return (
       <Container className={"container-fluid"}>
         <PluginHeader
@@ -93,12 +88,10 @@ class HistoryPage extends Component {
               {
                 name: "Import Data",
                 to: getUrl(''),
-                // values: { number: models.length },
               },
               {
                 name: "Import History",
                 to: getUrl('history'),
-                // values: { number: models.length },
               },
             ]}
             style={{marginTop: '4.4rem'}}
