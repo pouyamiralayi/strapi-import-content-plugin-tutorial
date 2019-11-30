@@ -24,13 +24,11 @@ export class UploadFileForm extends Component {
       filename: null
     },
     isDraging: false,
-    showLoader: false,
   }
 
   onChangeImportFile = event => {
     const file = event.target.files[0]
     file && this.setState({
-      showLoader: false,
       file,
       type: file.type,
       options: {

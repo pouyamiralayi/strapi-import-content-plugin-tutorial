@@ -103,7 +103,7 @@ class HistoryTable extends Component {
       <div className={'col-md-12'} style={{paddingTop:12}}>
         <PopUpWarning
           isOpen={showDeleteModal}
-          toggleModal={(prevState) => this.setState({showDeleteModal:null})}
+          toggleModal={() => this.setState({showDeleteModal:null})}
           content={{
             title: `Please confirm`,
             message: `Are you sure you want to delete this entry?`,
@@ -117,7 +117,7 @@ class HistoryTable extends Component {
         />
         <PopUpWarning
           isOpen={showUndoModal}
-          toggleModal={(prevState) => this.setState({showUndoModal:null})}
+          toggleModal={() => this.setState({showUndoModal:null})}
           content={{
             title: `Please confirm`,
             message: `Are you sure you want to undo this entry?`,
