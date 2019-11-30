@@ -197,7 +197,7 @@ class CreateImportPage extends Component {
 
 
   render() {
-    const {modelOptions, loading, inputFormatSettings} = this.state
+    const {modelOptions, loading, inputFormatSettings, fieldMapping} = this.state
     return (
       <Container className={"container-fluid"}>
         <PluginHeader

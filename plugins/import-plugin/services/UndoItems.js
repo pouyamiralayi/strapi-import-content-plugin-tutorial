@@ -53,9 +53,6 @@ module.exports = {
         reject(error);
       }
 
-      // const res = await strapi.query('importconfig','import-plugin').findOne({id:importConfig.id})
-      // console.log(res.ongoing)
-
       await strapi
         .query('importconfig', 'import-plugin')
         .update({ id: importConfig.id }, { ongoing: true });

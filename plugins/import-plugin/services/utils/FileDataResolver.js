@@ -6,7 +6,6 @@ const getDataFromUrl = url => {
   return new Promise((resolve, reject) => {
     if (!validateUrl(url)) return reject('invalid URL');
 
-    /*TODO we can change this to axios*/
     request(url, null, async (err, res, body) => {
       if (err) {
         reject(err);
