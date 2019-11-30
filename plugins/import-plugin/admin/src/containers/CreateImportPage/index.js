@@ -26,7 +26,7 @@ const getUrl = to => to ? `/plugins/${pluginId}/${to}` : `/plugins/${pluginId}`;
 class CreateImportPage extends Component {
 
   state = {
-    importSource: 'raw',
+    importSource: 'upload',
     selectedContentType: '',
     loading: true,
     models: [],
@@ -34,11 +34,11 @@ class CreateImportPage extends Component {
     inputFormatSettings: {delimiter: ',', skipRows: 0},
     fieldMapping: {},
     analysing: false,
-    analyzeError: null, // TODO check this
+    analyzeError: null,
     analysisConfig: null,
     analysis: null,
     saving: false,
-    saveError: null, // TODO check this
+    saveError: null,
     created: null,
   }
 
@@ -56,7 +56,7 @@ class CreateImportPage extends Component {
 
   getTargetModel = () => {
     const {models} = this.state;
-    if (!models) return null; // TODO check this
+    if (!models) return null; //
     return models.find(model => model.name === this.state.selectedContentType)
   };
 
