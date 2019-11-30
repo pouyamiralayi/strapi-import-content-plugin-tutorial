@@ -1,3 +1,9 @@
+/*
+ *
+ * HistoryPage
+ *
+ */
+
 import React, {Component} from 'react'
 import {HeaderNav, LoadingIndicator, PluginHeader} from "strapi-helper-plugin";
 import pluginId from "../../pluginId";

@@ -48,7 +48,7 @@ module.exports = {
       ctx.send({id: res.id});
     } else {
       ctx.response.status = 400 // bad request
-      ctx.response.message = 'could not delete: the provided id might not be right'
+      ctx.response.message = 'could not delete: the provided id might be wrong'
     }
   },
 
