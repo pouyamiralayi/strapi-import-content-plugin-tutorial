@@ -10,7 +10,7 @@ Based on strapi-beta: 17.5
 
 ----  
 
-#Setup
+# Setup
 
 yarn install
 
