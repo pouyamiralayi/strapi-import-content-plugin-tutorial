@@ -110,3 +110,7 @@ coverage
 exports
 .cache
 build
+/plugins/import-plugin/admin/src/utils/
+/api/mediatest/
+/api/test/
+/api/test2/
