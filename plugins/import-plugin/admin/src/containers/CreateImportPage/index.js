@@ -159,7 +159,8 @@ class CreateImportPage extends Component {
   }
 
   selectImportSource = (importSource) => {
-    this.setState({importSource});
+    this.setState({importSource, inputFormatSettings: {delimiter: ',', skipRows: 0},
+    });
   }
 
   selectImportDest = (selectedContentType) => {

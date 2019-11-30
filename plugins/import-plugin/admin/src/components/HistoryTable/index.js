@@ -1,17 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import Row from '../TableRow'
 import {Table, Button} from '@buffetjs/core'
-// import { Remove, Component as ComponentIcon } from '@buffetjs/icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {
-  faTrash,
-  faUndo
-} from '@fortawesome/free-solid-svg-icons';
-
-import {api_url} from "../../constants";
-import axios from 'axios'
 import moment from "moment";
 import {LoadingIndicator, PopUpWarning} from "strapi-helper-plugin";
 
@@ -27,15 +17,11 @@ class HistoryTable extends Component {
 
 
   deleteImport = id => {
-    console.log(id)
     this.setState({showDeleteModal: true, importToDelete: id})
-    // this.props.deleteImport(id);
   };
 
   undoImport = id => {
-    console.log(id)
     this.setState({showUndoModal: true, importToUndo: id})
-    // this.props.undoImport(id);
   };
 
   getSourceText = item => {
@@ -123,13 +109,11 @@ class HistoryTable extends Component {
           content={{
             title: `Please confirm`,
             message: `Are you sure you want to delete this entry?`,
-            // cancel: `cancel`,
-            // confirm: `got it`,
           }}
           popUpWarningType="danger"
-          onConfirm={() =>
+          onConfirm={async () =>
           {
-            importToDelete && this.props.deleteImport(importToDelete)
+            importToDelete && await this.props.deleteImport(importToDelete)
             this.setState({importToDelete:null, showDeleteModal:false})
           }}
         />
@@ -139,13 +123,11 @@ class HistoryTable extends Component {
           content={{
             title: `Please confirm`,
             message: `Are you sure you want to undo this entry?`,
-            // cancel: `cancel`,
-            // confirm: `got it`,
           }}
           popUpWarningType="danger"
-          onConfirm={() =>
+          onConfirm={ async () =>
           {
-            importToUndo && this.props.undoImport(importToUndo)
+            importToUndo && await this.props.undoImport(importToUndo)
             this.setState({importToUndo:null, showUndoModal:false})
           }}
         />

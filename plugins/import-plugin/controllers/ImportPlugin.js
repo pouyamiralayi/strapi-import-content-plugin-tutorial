@@ -45,7 +45,7 @@ module.exports = {
       id: importId
     });
     if (res && res.id) {
-      ctx.send({id: res.id});
+      ctx.send(res.id);
     } else {
       ctx.response.status = 400 // bad request
       ctx.response.message = 'could not delete: the provided id might be wrong'
