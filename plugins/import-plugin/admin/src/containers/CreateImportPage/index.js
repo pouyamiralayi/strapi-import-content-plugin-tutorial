@@ -325,7 +325,7 @@ class CreateImportPage extends Component {
             {!this.state.saving && (
               <Button
                 style={{marginTop: 12}}
-                label={"Import"}
+                label={"Run the Import"}
                 color={this.isEmptyMapping() ? 'delete' : 'primary'}
                 disabled={this.isEmptyMapping()}
                 onClick={this.onSaveImport}

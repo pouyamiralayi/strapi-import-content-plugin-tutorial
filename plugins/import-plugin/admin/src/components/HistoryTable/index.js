@@ -36,11 +36,6 @@ class HistoryTable extends Component {
   CustomRow = ({row}) => {
     const {id, contentType, importedCount, ongoing, updated_at} = row
     const updatedAt = moment(updated_at)
-    const styles = {
-      name: {
-        textTransform: 'capitalize',
-      },
-    };
 
     return (
       <Row>
