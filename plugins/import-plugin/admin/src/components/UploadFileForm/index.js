@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import {injectIntl} from 'react-intl';
 import Row from '../Row'
 import {Button} from '@buffetjs/core';
-import Label from './Label';
+import Label from '../Label';
+import P from "../P";
+import {LoadingIndicator} from "strapi-helper-plugin";
 
 
 function readFileContent(file) {
@@ -26,8 +28,7 @@ export class UploadFileForm extends Component {
     isDraging: false,
   }
 
-  onChangeImportFile = event => {
-    const file = event.target.files[0]
+  onChangeImportFile = file => {
     file && this.setState({
       file,
       type: file.type,
@@ -37,6 +38,13 @@ export class UploadFileForm extends Component {
       }
     })
   }
+
+  handleDrop = e => {
+    e.preventDefault();
+    this.setState({isDraging: false})
+    const file = e.dataTransfer.files[0]
+    this.onChangeImportFile(file)
+  };
 
   clickAnalyzeUploadFile = async () => {
     const {file, options} = this.state
@@ -52,13 +60,6 @@ export class UploadFileForm extends Component {
   handleDragEnter = () => this.setState({isDraging: true})
 
   handleDragLeave = () => this.setState({isDraging: false})
-
-  handleDrop = e => {
-    e.preventDefault();
-    this.setState({isDraging: false})
-    const file = e.dataTransfer.files[0]
-    this.onChangeImportFile({target: {files: [file]}})
-  };
 
   render() {
     const {loadingAnalysis} = this.props
@@ -136,34 +137,34 @@ export class UploadFileForm extends Component {
                 />
               </g>
             </svg>
-            <p style={{marginTop: 12}}>
+            <P>
               {!loadingAnalysis && (
                 <span>Drag & drop your file into this area or <span className={"underline"}>browse</span> from a file to upload </span>
               )}
               {loadingAnalysis && (
                 <span>Analysing...</span>
               )}
-            </p>
+            </P>
             <div
               onDragLeave={this.handleDragLeave}
               className="isDraging"/>
             <input
               name="file_input"
               accept=".csv"
-              onChange={this.onChangeImportFile}
+              onChange={({target:{files}}) => files && this.onChangeImportFile(files[0])}
               type="file"/>
           </Label>
         </Row>
-        {!this.props.loadingAnalysis && (
           <Row className={'row'}>
+          {!this.props.loadingAnalysis ? (
             <Button
               label={'Analyze'}
               color={this.state.file ? 'secondary' : 'delete'}
               disabled={!this.state.file}
               onClick={this.clickAnalyzeUploadFile}
             />
-          </Row>
-        )}
+        ) : (<LoadingIndicator/>)}
+        </Row>
       </div>
     );
   }
