@@ -34,8 +34,6 @@ class CreateImportPage extends Component {
     inputFormatSettings: {delimiter: ',', skipRows: 0},
     fieldMapping: {},
     analysing: false,
-    analyzeError: null,
-    analysisConfig: null,
     analysis: null,
     saving: false,
     saveError: null,
@@ -202,7 +200,7 @@ class CreateImportPage extends Component {
     return (
       <Container className={"container-fluid"}>
         <PluginHeader
-          title={"Import Plugin"}
+          title={"Import Content"}
           description={"Import CSV and RSS-Feed into your Content Types"}
         />
         <Row>
