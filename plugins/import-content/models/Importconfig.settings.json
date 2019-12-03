@@ -32,7 +32,7 @@
     "importeditems": {
       "collection": "importeditem",
       "via": "importconfig",
-      "plugin": "import-plugin"
+      "plugin": "import-content"
     }
   }
 }

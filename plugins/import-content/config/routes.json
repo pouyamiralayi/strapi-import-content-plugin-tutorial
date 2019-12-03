@@ -3,7 +3,7 @@
     {
       "method": "POST",
       "path": "/:importId/undo",
-      "handler": "ImportPlugin.undo",
+      "handler": "ImportContent.undo",
       "config": {
         "policies": []
       }
@@ -11,7 +11,7 @@
     {
       "method": "DELETE",
       "path": "/:importId",
-      "handler": "ImportPlugin.delete",
+      "handler": "ImportContent.delete",
       "config": {
         "policies": []
       }
@@ -19,7 +19,7 @@
     {
       "method": "POST",
       "path": "/",
-      "handler": "ImportPlugin.create",
+      "handler": "ImportContent.create",
       "config": {
         "policies": []
       }
@@ -27,7 +27,7 @@
     {
       "method": "POST",
       "path": "/preAnalyzeImportFile",
-      "handler": "ImportPlugin.preAnalyzeImportFile",
+      "handler": "ImportContent.preAnalyzeImportFile",
       "config": {
         "policies": []
       }
@@ -35,7 +35,7 @@
     {
       "method": "GET",
       "path": "/",
-      "handler": "ImportPlugin.index",
+      "handler": "ImportContent.index",
       "config": {
         "policies": []
       }

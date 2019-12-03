@@ -1,11 +1,11 @@
 {
-  "name": "strapi-plugin-import-plugin",
+  "name": "strapi-plugin-import-content",
   "version": "0.0.0",
-  "description": "This is the description of the plugin.",
+  "description": "Import CSV and RSS-Feed into your Content Types.",
   "strapi": {
     "name": "Import Content",
     "icon": "plug",
-    "description": "Description of import-plugin plugin."
+    "description": "Import CSV and RSS-Feed into your Content Types."
   },
   "dependencies": {},
   "author": {

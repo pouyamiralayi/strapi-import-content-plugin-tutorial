@@ -20,7 +20,7 @@
     "importconfig": {
       "model": "importconfig",
       "via": "importeditems",
-      "plugin": "import-plugin"
+      "plugin": "import-content"
     },
     "importedFiles": {
       "type": "json"

@@ -12,7 +12,7 @@ const importNextItem = async importConfig => {
     console.log('import complete');
 
     await strapi
-      .query('importconfig', 'import-plugin')
+      .query('importconfig', 'import-content')
       .update({id: importConfig.id}, {ongoing: false});
 
     return;
@@ -35,7 +35,7 @@ const importNextItem = async importConfig => {
     );
     const fileIds = _.map(_.flatten(uploadedFiles), 'id');
 
-    await strapi.query('importeditem', 'import-plugin').create({
+    await strapi.query('importeditem', 'import-content').create({
       importconfig: importConfig.id,
       ContentId: savedContent.id,
       ContentType: importConfig.contentType,
@@ -44,7 +44,7 @@ const importNextItem = async importConfig => {
   } catch (e) {
     console.log(e)
   }
-  const {IMPORT_THROTTLE} = strapi.plugins['import-plugin'].config;
+  const {IMPORT_THROTTLE} = strapi.plugins['import-content'].config;
   setTimeout(() => importNextItem(importConfig), IMPORT_THROTTLE);
 };
 

@@ -25,7 +25,7 @@ class HistoryPage extends Component {
   deleteImport = async (id) => {
     this.setState({loading: true}, async () => {
       try {
-        const res = await axios.delete(api_url + 'import-plugin/' + id)
+        const res = await axios.delete(api_url + 'import-content/' + id)
         if (res && res.data) {
           let {importConfigs} = this.state
           importConfigs = importConfigs.filter(imp => imp.id != id)
@@ -53,7 +53,7 @@ class HistoryPage extends Component {
 
   undoImport = async (id) => {
     this.setState({loading: true}, async () => {
-      await axios.post(api_url + `import-plugin/${id}/undo`)
+      await axios.post(api_url + `import-content/${id}/undo`)
       this.setState({loading: false}, () => {
         strapi.notification.info(
           `Undo Started`
@@ -64,7 +64,7 @@ class HistoryPage extends Component {
 
   getConfigs = async () => {
     try {
-      const res = await axios.get(api_url + 'import-plugin/')
+      const res = await axios.get(api_url + 'import-content/')
       if (res && res.data) {
         return res.data
       } else {

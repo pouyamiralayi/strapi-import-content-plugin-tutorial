@@ -3,7 +3,7 @@
 /**
  * ImportPlugin.js controller
  *
- * @description: A set of functions called "actions" of the `import-plugin` plugin.
+ * @description: A set of functions called "actions" of the `import-content` plugin.
  */
 const {
   resolveFileDataFromRequest
@@ -17,7 +17,7 @@ module.exports = {
    * @return {Object}
    */
   index: async (ctx) => {
-    const entries = await strapi.query('importconfig', 'import-plugin').find();
+    const entries = await strapi.query('importconfig', 'import-content').find();
     const withCounts = entries.map(entry => ({
       ...entry,
       importedCount: entry.importeditems.length,
@@ -27,10 +27,10 @@ module.exports = {
   },
 
   undo: async ctx => {
-    const services = strapi.plugins['import-plugin'].services;
+    const services = strapi.plugins['import-content'].services;
     const importId = ctx.params.importId;
     const importConfig = await strapi
-      .query('importconfig', 'import-plugin')
+      .query('importconfig', 'import-content')
       .findOne({id: importId});
     console.log('undo', importId);
     await services['undoitems'].undoItems(
@@ -41,7 +41,7 @@ module.exports = {
 
   delete: async ctx => {
     const importId = ctx.params.importId;
-    const res = await strapi.query('importconfig', 'import-plugin').delete({
+    const res = await strapi.query('importconfig', 'import-content').delete({
       id: importId
     });
     if (res && res.id) {
@@ -53,11 +53,11 @@ module.exports = {
   },
 
   create: async ctx => {
-    const services = strapi.plugins['import-plugin'].services;
+    const services = strapi.plugins['import-content'].services;
     const importConfig = ctx.request.body;
     importConfig.ongoing = true;
     const record = await strapi
-      .query('importconfig', 'import-plugin')
+      .query('importconfig', 'import-content')
       .create(importConfig);
     console.log('create', record);
     /*contentType here is the data type*/
@@ -68,7 +68,7 @@ module.exports = {
 
 
   preAnalyzeImportFile: async ctx => {
-    const services = strapi.plugins['import-plugin'].services;
+    const services = strapi.plugins['import-content'].services;
     /*contentType is the data type*/
     const {contentType, body, options} = await resolveFileDataFromRequest(
       ctx

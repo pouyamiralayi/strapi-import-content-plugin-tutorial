@@ -61,7 +61,7 @@ class CreateImportPage extends Component {
   saveImportConfig = async (importConfig) => {
     this.setState({saving: true}, async () => {
       try {
-        await axios.post(api_url + 'import-plugin', importConfig)
+        await axios.post(api_url + 'import-content', importConfig)
         this.setState({saving: false}, () => {
           strapi.notification.info(
             `Import Started`
@@ -101,7 +101,7 @@ class CreateImportPage extends Component {
       console.log(analysisConfigWithSettings)
       try {
         const res = await axios.post(
-          api_url + 'import-plugin/preAnalyzeImportFile',
+          api_url + 'import-content/preAnalyzeImportFile',
           analysisConfigWithSettings)
         if (res && res.data) {
           console.log(res.data)
