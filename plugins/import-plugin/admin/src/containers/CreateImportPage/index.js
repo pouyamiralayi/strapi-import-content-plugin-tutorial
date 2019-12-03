@@ -33,7 +33,7 @@ class CreateImportPage extends Component {
     modelOptions: [],
     inputFormatSettings: {delimiter: ',', skipRows: 0},
     fieldMapping: {},
-    analysing: false,
+    analyzing: false,
     analysis: null,
     saving: false,
     saveError: null,
@@ -97,7 +97,7 @@ class CreateImportPage extends Component {
   };
 
   preAnalyze = async (analysisConfigWithSettings) => {
-    this.setState({analysing: true}, async () => {
+    this.setState({analyzing: true}, async () => {
       console.log(analysisConfigWithSettings)
       try {
         const res = await axios.post(
@@ -105,20 +105,20 @@ class CreateImportPage extends Component {
           analysisConfigWithSettings)
         if (res && res.data) {
           console.log(res.data)
-          this.setState({analysis: res.data, analysing: false}, () => {
+          this.setState({analysis: res.data, analyzing: false}, () => {
             strapi.notification.success(
               `Analyzed Successfully`
             );
           })
         } else {
-          this.setState({analysing: false}, () => {
+          this.setState({analyzing: false}, () => {
             strapi.notification.error(
               `Analyze Failed, try again`
             );
           })
         }
       } catch (e) {
-        this.setState({analysing: false}, () => {
+        this.setState({analyzing: false}, () => {
           strapi.notification.error(
             `${e}`
           );
@@ -254,19 +254,19 @@ class CreateImportPage extends Component {
                     {this.state.importSource === 'upload' && (
                       <UploadFileForm
                         onRequestAnalysis={this.onRequestAnalysis}
-                        loadingAnalysis={this.state.analysing}
+                        loadingAnalysis={this.state.analyzing}
                       />
                     )}
                     {this.state.importSource === 'url' && (
                       <ExternalUrlForm
                         onRequestAnalysis={this.onRequestAnalysis}
-                        loadingAnalysis={this.state.analysing}
+                        loadingAnalysis={this.state.analyzing}
                       />
                     )}
                     {this.state.importSource === 'raw' && (
                       <RawInputForm
                         onRequestAnalysis={this.onRequestAnalysis}
-                        loadingAnalysis={this.state.analysing}
+                        loadingAnalysis={this.state.analyzing}
                       />
                     )}
                   </Row>

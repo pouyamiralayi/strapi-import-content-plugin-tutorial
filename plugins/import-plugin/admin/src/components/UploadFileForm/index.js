@@ -8,15 +8,6 @@ import P from "../P";
 import {LoadingIndicator} from "strapi-helper-plugin";
 
 
-function readFileContent(file) {
-  const reader = new FileReader();
-  return new Promise((resolve, reject) => {
-    reader.onload = event => resolve(event.target.result);
-    reader.onerror = reject
-    reader.readAsText(file)
-  });
-}
-
 export class UploadFileForm extends Component {
 
   state = {
@@ -26,6 +17,15 @@ export class UploadFileForm extends Component {
       filename: null
     },
     isDraging: false,
+  }
+
+   readFileContent = (file) => {
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      reader.onload = event => resolve(event.target.result);
+      reader.onerror = reject
+      reader.readAsText(file)
+    });
   }
 
   onChangeImportFile = file => {
@@ -48,7 +48,7 @@ export class UploadFileForm extends Component {
 
   clickAnalyzeUploadFile = async () => {
     const {file, options} = this.state
-    const data = file && await readFileContent(file)
+    const data = file && await this.readFileContent(file)
     data && this.props.onRequestAnalysis({
       source: 'upload',
       type: file.type,
@@ -175,4 +175,4 @@ UploadFileForm.propTypes = {
   loadingAnalysis: PropTypes.bool.isRequired
 };
 
-export default injectIntl(UploadFileForm);
+export default UploadFileForm
