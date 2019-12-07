@@ -105,7 +105,7 @@ class HistoryPage extends Component {
     return (
       <Container className={"container-fluid"}>
         <PluginHeader
-          title={"Import Plugin"}
+          title={"Import Content"}
           description={"Import CSV and RSS-Feed into your Content Types"}
         />
         <Row>

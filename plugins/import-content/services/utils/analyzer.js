@@ -63,4 +63,6 @@ const analyze = (sourceType, items) => {
   return { itemCount: items.length, fieldStats };
 };
 
+
+
 module.exports = { getFieldNameSet, analyze };

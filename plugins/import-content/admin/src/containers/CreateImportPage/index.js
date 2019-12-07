@@ -28,8 +28,8 @@ class CreateImportPage extends Component {
   state = {
     importSource: 'upload',
     selectedContentType: '',
-    loading: true,
     models: [],
+    loading: true,
     modelOptions: [],
     inputFormatSettings: {delimiter: ',', skipRows: 0},
     fieldMapping: {},
@@ -145,7 +145,7 @@ class CreateImportPage extends Component {
         })
       }
       this.setState({loading: false})
-      return {models, modelOptions}
+      return {modelOptions, models}
     } catch (e) {
       this.setState({loading: false}, () => {
         strapi.notification.error(
@@ -157,7 +157,8 @@ class CreateImportPage extends Component {
   }
 
   selectImportSource = (importSource) => {
-    this.setState({importSource, inputFormatSettings: {delimiter: ',', skipRows: 0},
+    this.setState({
+      importSource, inputFormatSettings: {delimiter: ',', skipRows: 0},
     });
   }
 
@@ -188,8 +189,7 @@ class CreateImportPage extends Component {
   };
 
   componentDidMount() {
-    this.getModels().then(res => {
-      const {models, modelOptions} = res
+    this.getModels().then(({modelOptions, models}) => {
       this.setState({models, modelOptions, selectedContentType: modelOptions ? modelOptions[0].label : ''})
     })
   }
@@ -230,24 +230,24 @@ class CreateImportPage extends Component {
             {!loading && modelOptions && (
               <row className={'col-12'}>
                 <form className={'row'}>
-                    <div className={'col-4'}>
-                      <Label htmlFor="importSource">Import Source</Label>
-                      <Select
-                        name="importSource"
-                        options={this.importSources}
-                        value={this.state.importSource} // observe our state
-                        onChange={({target: {value}}) => this.selectImportSource(value)}
-                      />
-                    </div>
-                    <div className={'col-4'}>
-                      <Label htmlFor="importDest">Import Destination</Label>
-                      <Select
-                        value={this.state.selectedContentType} // observe our state
-                        name="importDest"
-                        options={this.state.modelOptions}
-                        onChange={({target: {value}}) => this.selectImportDest(value)}
-                      />
-                    </div>
+                  <div className={'col-4'}>
+                    <Label htmlFor="importSource">Import Source</Label>
+                    <Select
+                      name="importSource"
+                      options={this.importSources}
+                      value={this.state.importSource} // observe our state
+                      onChange={({target: {value}}) => this.selectImportSource(value)}
+                    />
+                  </div>
+                  <div className={'col-4'}>
+                    <Label htmlFor="importDest">Import Destination</Label>
+                    <Select
+                      value={this.state.selectedContentType} // observe our state
+                      name="importDest"
+                      options={this.state.modelOptions}
+                      onChange={({target: {value}}) => this.selectImportDest(value)}
+                    />
+                  </div>
                 </form>
                 <form className="">
                   <Row>
@@ -320,15 +320,13 @@ class CreateImportPage extends Component {
               targetModel={this.getTargetModel()}
               onChange={this.setFieldMapping}
             />
-            {!this.state.saving && (
-              <Button
-                style={{marginTop: 12}}
-                label={"Run the Import"}
-                color={this.isEmptyMapping() ? 'delete' : 'primary'}
-                disabled={this.isEmptyMapping()}
-                onClick={this.onSaveImport}
-              />
-            )}
+            <Button
+              style={{marginTop: 12}}
+              label={"Run the Import"}
+              onClick={this.onSaveImport}
+              color={this.isEmptyMapping() ? 'delete' : 'primary'}
+              disabled={this.isEmptyMapping()}
+            />
           </Row>
         )}
       </Container>
