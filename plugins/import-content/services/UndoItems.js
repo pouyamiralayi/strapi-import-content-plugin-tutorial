@@ -5,7 +5,7 @@ const queues = {};
 
 const removeImportedFiles = async (fileIds, uploadConfig) => {
   const removePromises = fileIds.map(id =>
-    strapi.plugins['upload'].services.upload.remove({ id }, uploadConfig)
+    strapi.plugins['upload'].services.upload.remove({id}, uploadConfig)
   );
 
   return await Promise.all(removePromises);
@@ -19,28 +19,32 @@ const undoNextItem = async (importConfig, uploadConfig) => {
 
     await strapi
       .query('importconfig', 'import-content')
-      .update({ id: importConfig.id }, { ongoing: false });
+      .update({id: importConfig.id}, {ongoing: false});
 
     return;
   }
 
-  try{
+  try {
     await strapi.query(importConfig.contentType)
-      .delete({ id: item.ContentId })
-
+      .delete({id: item.ContentId})
+  } catch (e) {
+    console.log(e)
+  }
+  try {
     const importedFileIds = _.compact(item.importedFiles.fileIds);
-
     await removeImportedFiles(importedFileIds, uploadConfig);
-
+  } catch (e) {
+    console.log(e)
+  }
+  try {
     await strapi.query('importeditem', 'import-content').delete({
       id: item.id
     });
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e)
   }
 
-  const { UNDO_THROTTLE } = strapi.plugins['import-content'].config;
+  const {UNDO_THROTTLE} = strapi.plugins['import-content'].config;
   setTimeout(() => undoNextItem(importConfig, uploadConfig), UNDO_THROTTLE);
 };
 
@@ -55,7 +59,7 @@ module.exports = {
 
       await strapi
         .query('importconfig', 'import-content')
-        .update({ id: importConfig.id }, { ongoing: true });
+        .update({id: importConfig.id}, {ongoing: true});
 
       resolve({
         status: 'undo started',
@@ -68,7 +72,7 @@ module.exports = {
           type: 'plugin',
           name: 'upload'
         })
-        .get({ key: 'provider' });
+        .get({key: 'provider'});
 
       undoNextItem(importConfig, uploadConfig);
     })
