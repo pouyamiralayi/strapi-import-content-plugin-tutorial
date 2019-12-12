@@ -16,7 +16,7 @@ yarn install
 
 ------
 
-yarn develop --watch-admin 
+yarn run develop --watch-admin 
 
 or
  

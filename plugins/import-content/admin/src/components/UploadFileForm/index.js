@@ -16,7 +16,7 @@ export class UploadFileForm extends Component {
     options: {
       filename: null
     },
-    isDraging: false,
+    isDragging: false,
   }
 
    readFileContent = (file) => {
@@ -41,7 +41,7 @@ export class UploadFileForm extends Component {
 
   handleDrop = e => {
     e.preventDefault();
-    this.setState({isDraging: false})
+    this.setState({isDragging: false})
     const file = e.dataTransfer.files[0]
     this.onChangeImportFile(file)
   };
@@ -57,19 +57,19 @@ export class UploadFileForm extends Component {
     })
   }
 
-  handleDragEnter = () => this.setState({isDraging: true})
+  handleDragEnter = () => this.setState({isDragging: true})
 
-  handleDragLeave = () => this.setState({isDraging: false})
+  handleDragLeave = () => this.setState({isDragging: false})
 
   render() {
     const {loadingAnalysis} = this.props
-    const {isDraging} = this.state
+    const {isDragging} = this.state
     return (
       <div className={'col-12'}>
         <Row className={'row'}>
           <Label
             showLoader={loadingAnalysis} // we use loader for indicating analysing process
-            isDraging={isDraging}
+            isDragging={isDragging}
             onDragEnter={this.handleDragEnter}
             onDragOver={e => {
               e.preventDefault();
@@ -147,7 +147,7 @@ export class UploadFileForm extends Component {
             </P>
             <div
               onDragLeave={this.handleDragLeave}
-              className="isDraging"/>
+              className="isDragging"/>
             <input
               name="file_input"
               accept=".csv"

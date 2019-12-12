@@ -21,7 +21,7 @@ const Label = styled.label`
     }
   }
 
-  .isDraging {
+  .isDragging {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -39,8 +39,8 @@ const Label = styled.label`
     cursor: pointer;
   }
 
-  ${({ isDraging }) => {
-    if (isDraging) {
+  ${({ isDragging }) => {
+    if (isDragging) {
       return css`
         background-color: rgba(28, 93, 231, 0.01) !important;
         border: 2px dashed rgba(28, 93, 231, 0.1) !important;
