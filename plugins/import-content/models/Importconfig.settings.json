@@ -12,7 +12,7 @@
   },
   "attributes": {
     "date": {
-      "type": "date"
+      "type": "datetime"
     },
     "source": {
       "type": "string"
