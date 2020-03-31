@@ -5,7 +5,7 @@
  */
 
 import React, {Component, memo} from 'react';
-import {HeaderNav, LoadingIndicator, PluginHeader} from 'strapi-helper-plugin'
+import {HeaderNav, LoadingIndicator, PluginHeader, request} from 'strapi-helper-plugin'
 import {Button, InputNumber, InputText, Label, Select} from '@buffetjs/core'
 import pluginId from '../../pluginId';
 import Container from "../../components/Container"
@@ -19,7 +19,6 @@ import MappingTable from "../../components/MappingTable";
 import ExternalUrlForm from "../../components/ExternalUrlForm";
 import RawInputForm from "../../components/RawInputForm";
 
-import {GlobalContext} from "strapi-helper-plugin";
 
 const getUrl = to => to ? `/plugins/${pluginId}/${to}` : `/plugins/${pluginId}`;
 
@@ -41,7 +40,6 @@ class CreateImportPage extends Component {
     created: null,
   }
 
-  static contextType = GlobalContext;
 
   importSources = [
     {label: 'External URL ', value: 'url'},
@@ -137,15 +135,20 @@ class CreateImportPage extends Component {
     this.setState({loading: true})
     try {
       let models = []
-      const res = await axios.get(api_url + 'content-type-builder/content-types')
-      console.log(res)
+      // const res = await axios.get(api_url + 'content-type-builder/content-types')
+      const {data: contentTypesArray} = await request('/content-type-builder/content-types')
+      // console.log(res)
       /*deprecated => res.data has no allModels prop anymore... */
       // if (res && res.data && res.data.allModels) {
-      if (res && res.data && res.data.data) {
+      if (contentTypesArray) {
         /*deprecated => schema has it's own key from now on...*/
         // models = res.data.allModels.filter(m => ['permission', 'role', 'user', 'importconfig', 'importeditem'].indexOf(m.name) < 0)
-        res.data.data.filter(m => ['permission', 'role', 'user', 'importconfig', 'importeditem'].indexOf(m.schema.name) < 0).forEach(m => {
+        contentTypesArray.filter(m => {
+          /*filter plugins & singleTypes...*/
+          return (['permission', 'role', 'user', 'importconfig', 'importeditem'].indexOf(m.schema.name) < 0) && (m.schema.kind.indexOf('singleType') < 0)
+        }).forEach(m => {
           /*grab the whole object, then extract the requirements like schema, uid, apiId etc. whenever needed.*/
+          console.log('contentType:', m)
           models.push(m)
         })
         console.log(models)
