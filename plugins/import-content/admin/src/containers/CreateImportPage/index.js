@@ -19,6 +19,7 @@ import MappingTable from "../../components/MappingTable";
 import ExternalUrlForm from "../../components/ExternalUrlForm";
 import RawInputForm from "../../components/RawInputForm";
 
+import {GlobalContext} from "strapi-helper-plugin";
 
 const getUrl = to => to ? `/plugins/${pluginId}/${to}` : `/plugins/${pluginId}`;
 
@@ -27,7 +28,7 @@ class CreateImportPage extends Component {
 
   state = {
     importSource: 'upload',
-    selectedContentType: '',
+    selectedContentType: '', // uid of the content-type
     models: [],
     loading: true,
     modelOptions: [],
@@ -39,6 +40,8 @@ class CreateImportPage extends Component {
     saveError: null,
     created: null,
   }
+
+  static contextType = GlobalContext;
 
   importSources = [
     {label: 'External URL ', value: 'url'},
@@ -55,7 +58,10 @@ class CreateImportPage extends Component {
   getTargetModel = () => {
     const {models} = this.state;
     if (!models) return null; //
-    return models.find(model => model.name === this.state.selectedContentType)
+    /*deprecated => we don't store schemas in models anymore, instead we store the whole content-type object {uid, apiId, schema}*/
+    // return models.find(model => model.name === this.state.selectedContentType)
+    const ct = models.find(model => model.uid === this.state.selectedContentType)
+    return ct && ct.schema
   };
 
   saveImportConfig = async (importConfig) => {
@@ -130,17 +136,30 @@ class CreateImportPage extends Component {
   getModels = async () => {
     this.setState({loading: true})
     try {
-      let models = null
-      const res = await axios.get(api_url + 'content-type-builder/models')
-      if (res && res.data && res.data.allModels) {
-        models = res.data.allModels.filter(m => ['permission', 'role', 'user', 'importconfig', 'importeditem'].indexOf(m.name) < 0)
+      let models = []
+      const res = await axios.get(api_url + 'content-type-builder/content-types')
+      console.log(res)
+      /*deprecated => res.data has no allModels prop anymore... */
+      // if (res && res.data && res.data.allModels) {
+      if (res && res.data && res.data.data) {
+        /*deprecated => schema has it's own key from now on...*/
+        // models = res.data.allModels.filter(m => ['permission', 'role', 'user', 'importconfig', 'importeditem'].indexOf(m.name) < 0)
+        res.data.data.filter(m => ['permission', 'role', 'user', 'importconfig', 'importeditem'].indexOf(m.schema.name) < 0).forEach(m => {
+          /*grab the whole object, then extract the requirements like schema, uid, apiId etc. whenever needed.*/
+          models.push(m)
+        })
+        console.log(models)
       }
       let modelOptions = []
       if (models) {
         modelOptions = _.map(models, (m) => {
+          console.log(m)
           return {
-            label: m.name,
-            value: m.name
+            /*deprecated => we use uid as option's value so we can detect the type easily on the backend side.*/
+            // label:m.name,
+            // value:m.name,
+            label: m.schema.name,
+            value: m.uid
           }
         })
       }
@@ -163,6 +182,7 @@ class CreateImportPage extends Component {
   }
 
   selectImportDest = (selectedContentType) => {
+    console.log('TargetDestSelect: ', selectedContentType)
     this.setState({selectedContentType});
   }
 
@@ -190,7 +210,9 @@ class CreateImportPage extends Component {
 
   componentDidMount() {
     this.getModels().then(({modelOptions, models}) => {
-      this.setState({models, modelOptions, selectedContentType: modelOptions ? modelOptions[0].label : ''})
+      /*deprecated => we use value so we have the type's uid on the backend side.*/
+      // this.setState({models, modelOptions, selectedContentType: modelOptions ? modelOptions[0].label : ''})
+      this.setState({models, modelOptions, selectedContentType: modelOptions ? modelOptions[0].value : ''})
     })
   }
 

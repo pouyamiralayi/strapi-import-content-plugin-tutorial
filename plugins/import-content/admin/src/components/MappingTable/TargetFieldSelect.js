@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Select} from '@buffetjs/core'
+import _ from 'lodash'
 
 class TargetFieldSelect extends Component {
   state = {
@@ -22,9 +23,14 @@ class TargetFieldSelect extends Component {
   fillOptions() {
     const {targetModel} = this.props
     const options = targetModel &&
-      targetModel.attributes.map(attribute => {
-        const type = attribute.params.type;
-        return type && {label: attribute.name, value: attribute.name}
+      /*deprecated => attributes is not an array anymore...*/
+      // targetModel.attributes.map(attribute => {
+      //   const type = attribute.params.type;
+      //   return type && {label: attribute.name, value: attribute.name}
+      // })
+      _.keys(targetModel.attributes).map(attribute => {
+        const type = targetModel.attributes[attribute].type
+        return type && {label: attribute, value: attribute}
       })
     return [{label: 'None', value: 'none'}, ...options]
   }
