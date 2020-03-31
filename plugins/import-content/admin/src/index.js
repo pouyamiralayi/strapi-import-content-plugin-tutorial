@@ -12,23 +12,27 @@ function Comp(props) {
   return <App {...props} />;
 }
 
-const plugin = {
-  blockerComponent: null,
-  blockerComponentProps: {},
-  description: pluginDescription,
-  icon: pluginPkg.strapi.icon,
-  id: pluginId,
-  initializer: Initializer,
-  injectedComponents: [],
-  isReady: false,
-  layout: null,
-  lifecycles,
-  leftMenuLinks: [],
-  leftMenuSections: [],
-  mainComponent: Comp,
-  name: pluginPkg.strapi.name,
-  preventComponentRendering: false,
-  trads,
-};
+export default strapi => {
 
-export default plugin;
+  const plugin = {
+    blockerComponent: null,
+    blockerComponentProps: {},
+    description: pluginDescription,
+    icon: pluginPkg.strapi.icon,
+    id: pluginId,
+    initializer: Initializer,
+    injectedComponents: [],
+    isReady: true,
+    layout: null,
+    lifecycles,
+    leftMenuLinks: [],
+    leftMenuSections: [],
+    mainComponent: Comp,
+    name: pluginPkg.strapi.name,
+    preventComponentRendering: false,
+    trads,
+  };
+  return strapi.registerPlugin(plugin);
+}
+
+

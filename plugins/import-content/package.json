@@ -4,7 +4,7 @@
   "description": "Import CSV and RSS-Feed into your Content Types.",
   "strapi": {
     "name": "Import Content",
-    "icon": "plug",
+    "icon": "file-import",
     "description": "Import CSV and RSS-Feed into your Content Types."
   },
   "dependencies": {},
@@ -15,9 +15,9 @@
   },
   "maintainers": [
     {
-      "name": "A Strapi developer",
-      "email": "",
-      "url": ""
+      "name": "Pouya Miralayi",
+      "email": "pouyamiralayi@gmail.com",
+      "url": "https://github.com/pouyamiralayi/strapi-import-content-plugin-tutorial/tree/part2"
     }
   ],
   "engines": {

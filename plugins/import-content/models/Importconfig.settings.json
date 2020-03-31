@@ -5,11 +5,7 @@
     "name": "importconfig",
     "description": ""
   },
-  "options": {
-    "timestamps": true,
-    "increments": true,
-    "comment": ""
-  },
+  "options": { "timestamps": true, "increments": true, "comment": "" },
   "attributes": {
     "date": {
       "type": "datetime"
